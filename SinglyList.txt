@@ -1,0 +1,281 @@
+node.java
+
+package com.singlyll;
+
+public class Node {
+	
+	int Data;
+	Node next;
+	//Node prev;
+	
+	public Node(int Data)
+	{
+		this.Data = Data;
+		this.next = null;
+	}
+}
+
+
+Singlly.java
+
+package com.singlyll;
+
+public class SinglyLL {
+	
+	Node Head;
+	int count;
+	
+	public SinglyLL()
+	{
+		this.Head = null;
+		this.count = 0;
+	}
+	
+	public void InsertFirst(int No)
+	{
+		Node newn = new Node(No);
+		
+		if(Head == null)
+		{
+			Head = newn;
+		}
+		else
+		{
+			newn.next = Head;
+			Head = newn;
+		}
+		count++;
+	}
+	
+	public void InsertLast(int No)
+	{
+		Node newn = new Node(No);
+		
+		if(Head == null)
+		{
+			Head = newn;
+		}
+		else
+		{
+			Node temp = Head;
+			
+			while(temp.next != null)
+			{
+				temp = temp.next;
+			}
+			
+			temp.next = newn;
+		}
+		count++;
+	}
+	
+	public void InsertAtPos(int No,int Pos)
+	{
+				
+		if((Pos < 1 ) || (Pos > (count+1)))
+		{
+			System.out.println("Invalid Position");
+			return;
+		}
+		
+		if(Pos == 1)
+		{
+			InsertFirst(No);
+		}
+		else if(Pos == count+1)
+		{
+			InsertLast(No);
+		}
+		else
+		{
+			Node newn = new Node(No);
+			
+			Node temp = Head;
+			
+			for(int i=1;i<Pos-1;i++)
+			{
+				temp = temp.next;
+			}
+			
+			newn.next = temp.next;
+			temp.next = newn;
+		}
+		count++;
+		
+	}
+	
+	public void DeleteFirst()
+	{
+		if(Head == null)
+		{
+			return;
+		}
+		else if(Head.next == null)
+		{
+			Head = null;
+		}
+		else
+		{
+			Head = Head.next;
+		}
+		count--;
+	}
+	
+	public void DeleteLast()
+	{
+		if(Head == null)
+		{
+			return;
+		}
+		else if(Head.next == null)
+		{
+			Head = null;
+		}
+		else
+		{
+			Node temp= Head;
+
+            while(temp.next.next != null)
+            {
+                temp = temp.next;
+            }
+
+            temp.next = null;
+		}
+		count--;
+	}
+	
+	public void DeleteAtPos(int Pos)
+	{
+		if((Pos < 1) || (Pos > (count+1)))
+		{
+			System.out.println("Invalid Position");
+		}
+		
+		if(Pos == 1)
+		{
+			DeleteFirst();
+		}
+		else if(Pos == count)
+		{
+			DeleteLast();
+		}
+		else
+		{
+			Node temp = Head;
+			
+			for(int i=1;i<Pos-1;i++)
+			{
+				temp = temp.next;
+			}
+			temp.next = temp.next.next;
+			count--;
+		}
+	}
+	
+	public void Display()
+	
+	 {
+	        Node temp = Head;
+
+	        System.out.println("Elements of the Linked List are : ");
+
+	        while(temp != null)
+	        {
+	                System.out.print("| "+temp.Data +" |->");
+	                temp = temp.next;
+	        }
+	        System.out.println("null");
+	  }
+	
+	public int count()
+	{
+		return count;
+	}
+	
+}
+
+main.java
+
+package com.singlyll;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sobj = new Scanner(System.in);
+        SinglyLL obj = new SinglyLL();
+        int choice = 0;
+        int value, position;
+
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Insert at First");
+            System.out.println("2. Insert at Last");
+            System.out.println("3. Insert at Position");
+            System.out.println("4. Delete First");
+            System.out.println("5. Delete Last");
+            System.out.println("6. Delete at Position");
+            System.out.println("7. Display List");
+            System.out.println("8. Count Elements");
+            System.out.println("9. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sobj.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter value to insert at first: ");
+                    value = sobj.nextInt();
+                    obj.InsertFirst(value);
+                    break;
+
+                case 2:
+                    System.out.print("Enter value to insert at last: ");
+                    value = sobj.nextInt();
+                    obj.InsertLast(value);
+                    break;
+
+                case 3:
+                    System.out.print("Enter value to insert: ");
+                    value = sobj.nextInt();
+                    System.out.print("Enter position: ");
+                    position = sobj.nextInt();
+                    obj.InsertAtPos(value, position);
+                    break;
+
+                case 4:
+                    obj.DeleteFirst();
+                    break;
+
+                case 5:
+                    obj.DeleteLast();
+                    break;
+
+                case 6:
+                    System.out.print("Enter position to delete: ");
+                    position = sobj.nextInt();
+                    obj.DeleteAtPos(position);
+                    break;
+
+                case 7:
+                    obj.Display();
+                    break;
+
+                case 8:
+                    int count = obj.count();
+                    System.out.println("Number of elements are: " + count);
+                    break;
+
+                case 9:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 9);
+
+        sobj.close();
+    }
+}
+
